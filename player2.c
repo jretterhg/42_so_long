@@ -41,6 +41,7 @@ void	handle_collectible_and_exit(t_game *game, int new_x, int new_y)
 void	update_old_position(t_game *game)
 {
 	char	current_tile;
+	char	target_tile;
 
 	current_tile = game->map[game->player_y][game->player_x];
 	if (current_tile == 'E')
