@@ -55,7 +55,6 @@ void	update_old_position(t_game *game)
 /* ************************************************************************** */
 int	handle_exit(t_game *game, int new_x, int new_y)
 {
-	char	current_tile;
 	char	target_tile;
 
 	current_tile = game->map[game->player_y][game->player_x];
