@@ -6,7 +6,7 @@
 /*   By: jretter <jretter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 14:01:26 by jretter           #+#    #+#             */
-/*   Updated: 2024/12/16 17:26:52 by jretter          ###   ########.fr       */
+/*   Updated: 2024/12/18 19:14:12 by jretter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,29 +18,42 @@
 # define BUFFER_SIZE 1024
 #endif
 
-// Function to read from file descriptor and update buffer
-static char	*read_and_update_buffer(int fd, char *remainder)
+/* ************************************************************************** */
+/* Update buffer by reading from file descriptor                              */
+/* ************************************************************************** */
+static char	*update_buffer(int fd, char *remainder)
 {
 	char	buffer[BUFFER_SIZE + 1];
 	int		bytes_read;
+	char	*temp;
 
 	while (!ft_strchr(remainder, '\n'))
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read < 0)
+		{
+			free(remainder);
 			return (NULL);
+		}
 		if (bytes_read == 0)
-			break ;
+			return (remainder);
 		buffer[bytes_read] = '\0';
-		remainder = ft_strjoin(remainder, buffer);
-		if (!remainder)
+		temp = ft_strjoin(remainder, buffer);
+		if (!temp)
+		{
+			free(remainder);
 			return (NULL);
+		}
+		free(remainder);
+		remainder = temp;
 	}
 	return (remainder);
 }
 
-// Function to extract the next line and update the remainder
-static char	*extract_line(char **remainder)
+/* ************************************************************************** */
+/* Extract line from remainder and update it                                  */
+/* ************************************************************************** */
+static char	*extract_and_update_remainder(char **remainder)
 {
 	char	*newline;
 	char	*line;
@@ -62,11 +75,15 @@ static char	*extract_line(char **remainder)
 	}
 	free(*remainder);
 	*remainder = new_remainder;
+	if (!line || (newline && !new_remainder))
+		return (free(line), free(new_remainder), NULL);
 	return (line);
 }
 
-// Function to handle cleanup and errors
-static char	*clean_up(char **remainder)
+/* ************************************************************************** */
+/* Free remainder if needed                                                   */
+/* ************************************************************************** */
+static char	*free_remainder(char **remainder)
 {
 	if (remainder && *remainder)
 	{
@@ -76,25 +93,36 @@ static char	*clean_up(char **remainder)
 	return (NULL);
 }
 
-// Main get_next_line function
+/* ************************************************************************** */
+/* Initialize and process remainder                                           */
+/* ************************************************************************** */
+static char	*process_remainder(int fd, char **remainder)
+{
+	char	*line;
+
+	if (!*remainder)
+	{
+		*remainder = ft_strdup("");
+		if (!*remainder)
+			return (NULL);
+	}
+	*remainder = update_buffer(fd, *remainder);
+	if (!*remainder)
+		return (free_remainder(remainder));
+	line = extract_and_update_remainder(remainder);
+	if (!line)
+		return (free_remainder(remainder));
+	return (line);
+}
+
+/* ************************************************************************** */
+/* Get the next line from the file descriptor                                 */
+/* ************************************************************************** */
 char	*get_next_line(int fd)
 {
 	static char	*remainder;
-	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!remainder)
-	{
-		remainder = ft_strdup("");
-		if (!remainder)
-			return (NULL);
-	}
-	remainder = read_and_update_buffer(fd, remainder);
-	if (!remainder)
-		return (clean_up(&remainder));
-	line = extract_line(&remainder);
-	if (!line)
-		return (clean_up(&remainder));
-	return (line);
+	return (process_remainder(fd, &remainder));
 }

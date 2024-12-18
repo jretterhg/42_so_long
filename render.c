@@ -6,7 +6,7 @@
 /*   By: jretter <jretter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:29:44 by jretter           #+#    #+#             */
-/*   Updated: 2024/12/06 18:14:18 by jretter          ###   ########.fr       */
+/*   Updated: 2024/12/18 18:02:08 by jretter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,10 @@ void	render_tile(t_game *game, int x, int y)
 	draw_background(game->mlx, x, y);
 	if (tile == '1')
 		img = mlx_texture_to_image(game->mlx, game->textures[2]);
-	else if (tile == 'C')
-		img = mlx_texture_to_image(game->mlx, game->textures[1]);
 	else if (tile == 'E')
 		img = mlx_texture_to_image(game->mlx, game->textures[3]);
-	else if (tile == 'P')
-		img = mlx_texture_to_image(game->mlx, game->textures[0]);
+	else if (tile == 'C')
+		img = mlx_texture_to_image(game->mlx, game->textures[1]);
 	if (img)
 		mlx_image_to_window(game->mlx, img, x * TILE_SIZE, y * TILE_SIZE);
 }
@@ -91,15 +89,12 @@ void	render_map(t_game *game)
 	}
 }
 
-/* ************************************************************************** */
-/* Update the move counter display                                            */
-/* ************************************************************************** */
-void	update_move_counter(t_game *game)
+void	render_player(t_game *game)
 {
-	char	buffer[64];
+	mlx_image_t	*img;
 
-	snprintf(buffer, sizeof(buffer), "Moves: %d", game->moves);
-	if (game->move_counter_img)
-		mlx_delete_image(game->mlx, game->move_counter_img);
-	game->move_counter_img = mlx_put_string(game->mlx, buffer, 10, 10);
+	img = mlx_texture_to_image(game->mlx, game->textures[0]);
+	if (img)
+		mlx_image_to_window(game->mlx, img, game->player_x * TILE_SIZE,
+			game->player_y * TILE_SIZE);
 }

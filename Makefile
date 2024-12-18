@@ -6,7 +6,7 @@
 #    By: jretter <jretter@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/12 17:02:02 by jretter           #+#    #+#              #
-#    Updated: 2024/12/15 18:56:36 by jretter          ###   ########.fr        #
+#    Updated: 2024/12/18 15:34:01 by jretter          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,15 +30,16 @@
 
 NAME = so_long
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
-SRCS = so_long.c validate_map.c render.c player.c keypress.c validate.c floodfill.c getnextline.c
+CFLAGS = -Wall -Wextra -Werror
+SRCS = so_long.c validate_map.c render.c player.c keypress.c validate.c floodfill.c getnextline.c clean.c
 OBJS = $(SRCS:.c=.o)
 LIBFT = libft/libft.a
 MLX42 = MLX42/build/libmlx42.a
 INCLUDES = -IMLX42/include -Ilibft
+USER = $(shell brew --prefix glfw)/lib/
 
 # MLX42 Flags
-MLX_FLAGS = -L$(HOME)/.brew/opt/glfw/lib -lglfw -framework Cocoa -framework OpenGL -framework IOKit
+MLX_FLAGS = -L"$(USER)" -lglfw -framework Cocoa -framework OpenGL -framework IOKit
 
 # Default target
 all: $(NAME)
@@ -77,3 +78,7 @@ re: fclean all
 
 # Phony targets
 .PHONY: all clean fclean re
+
+
+
+

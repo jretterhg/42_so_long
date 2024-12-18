@@ -6,7 +6,7 @@
 /*   By: jretter <jretter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 16:52:22 by jretter           #+#    #+#             */
-/*   Updated: 2024/12/16 17:31:41 by jretter          ###   ########.fr       */
+/*   Updated: 2024/12/16 18:21:58 by jretter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ bool	validate_map(t_game *game)
 	}
 	if (!perform_flood_fill(game))
 	{
-		ft_printf("Error: not all collectibles or the exit are not reachable.\n");
+		ft_printf("Error: not all collec. or the exit are not reachable.\n");
 		return (false);
 	}
 	return (true);
@@ -102,9 +102,9 @@ static bool	validate_map_size(t_game *game)
 	y = 0;
 	while (y < game->height)
 	{
-		if ((int)ft_strlen(game->map[y]) > 1000)
+		if ((int)ft_strlen(game->map[y]) > 1023)
 		{
-			ft_printf("Error: Row %d exceeds  size (1000 characters).\n", y);
+			ft_printf("Error: Row %d exceeds  size (1023 characters).\n", y);
 			return (false);
 		}
 		y++;

@@ -6,7 +6,7 @@
 /*   By: jretter <jretter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:01:38 by jretter           #+#    #+#             */
-/*   Updated: 2024/05/06 21:21:32 by jretter          ###   ########.fr       */
+/*   Updated: 2024/12/18 14:02:37 by jretter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int	ft_print_hex(unsigned long num, int uppercase, int *total_count)
 	char	*str;
 	int		result;
 
-	if (num < 0)
-	{
-		num = (unsigned int)(-num);
-	}
+	// if (num < 0)
+	// {
+	// 	num = (unsigned int)(-num);
+	// }
 	str = ft_utoa_16(num, uppercase);
 	if (!str)
 		return (-1);

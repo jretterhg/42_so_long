@@ -6,7 +6,7 @@
 /*   By: jretter <jretter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 13:19:39 by jretter           #+#    #+#             */
-/*   Updated: 2024/12/15 19:38:04 by jretter          ###   ########.fr       */
+/*   Updated: 2024/12/18 14:48:10 by jretter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	free_visited(bool **visited, int height)
 		i++;
 	}
 	free(visited);
+	visited = NULL;
 }
 
 /* ************************************************************************** */
@@ -79,10 +80,7 @@ bool	perform_flood_fill(t_game *game)
 	state.flooded_items = 0;
 	state.exit_found = false;
 	flood_fill_recursive(game, game->player_x, game->player_y, &state);
-	// Debug: Ergebnisse des Flood-Fill
-	// Visited-Array freigeben
 	free_visited(state.visited, game->height);
-	// Überprüfen, ob alle Sammelobjekte und der Ausgang erreichbar sind
 	if (state.flooded_items != game->collectibles || !state.exit_found)
 		return (false);
 	return (true);
