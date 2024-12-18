@@ -31,7 +31,7 @@
 NAME = so_long
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SRCS = so_long.c validate_map.c render.c player.c keypress.c validate.c floodfill.c getnextline.c clean.c
+SRCS = so_long.c validate_map.c render.c player2.c keypress.c validate.c floodfill.c getnextline.c clean.c
 OBJS = $(SRCS:.c=.o)
 LIBFT = libft/libft.a
 MLX42 = MLX42/build/libmlx42.a
