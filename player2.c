@@ -56,9 +56,9 @@ void	update_old_position(t_game *game)
 int	handle_exit(t_game *game, int new_x, int new_y)
 {
 	char	target_tile;
-	char	current_tile;
+	//char	current_tile;
 
-	current_tile = game->map[game->player_y][game->player_x];
+	//current_tile = game->map[game->player_y][game->player_x];
 	target_tile = game->map[new_y][new_x];
 	if (target_tile == 'E' && game->collectibles > 0)
 	{
